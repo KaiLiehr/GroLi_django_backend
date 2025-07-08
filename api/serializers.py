@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import User, Item, List, ListItem, PriceItemInfo, Brand, Store, Membership
 
 # This file contains the serializer classes to convert instances of the models of the api app to json and vice versa
+# TODO: Once all views are created, decide what is really necessary to display/return, until then, just display all nested relations
+# TODO: add default sortings either for db or for returned views
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,9 +35,10 @@ class ListItemSerializer(serializers.ModelSerializer):
         model = ListItem
         fields = (
             'id',
+            'list',
             'item',
-            'amount',
             'status',
+            'amount',
             'price_total',
             'created_by',
             'created_at',
@@ -43,6 +46,7 @@ class ListItemSerializer(serializers.ModelSerializer):
         )
 
 class PriceItemInfoSerializer(serializers.ModelSerializer):
+    item = ItemSerializer() # Do I really want to display item details in the prices view?
     class Meta:
         model = PriceItemInfo
         fields = (
