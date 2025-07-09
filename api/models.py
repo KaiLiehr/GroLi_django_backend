@@ -82,8 +82,8 @@ class List(models.Model):
 
 # Membership relation representing the manytomany relatioship between lists and users(Creator of list(Admin) is not member)
 class Membership(models.Model):
-    joined_list = models.ForeignKey(List, on_delete=models.CASCADE)
-    member = models.ForeignKey(User, on_delete=models.CASCADE)
+    joined_list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="list_memberships")
+    member = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_memberships")
 
     inviter = models.ForeignKey(User, related_name="membership_inviter", blank=True, null=True, on_delete=models.SET_NULL)
     joined_at = models.DateTimeField(auto_now_add=True)

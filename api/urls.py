@@ -9,4 +9,6 @@ urlpatterns = [
     path('stores/', views.all_stores, name='all_stores'),
     path('prices/', views.all_price_infos, name='all_prices'),
     path('prices/<int:item_id>/', views.price_infos_for_item, name='item_prices'),
+    path('lists/', views.all_lists, name='all_lists'),
+    #path('lists/<int:list_id>/', views.list_detail, name='list_detail'),
 ]
