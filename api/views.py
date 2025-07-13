@@ -43,7 +43,8 @@ def all_price_infos(request):
 # view method for returning all price infos for the given item
 @api_view(['GET'])
 def price_infos_for_item(request, item_id):
-    price_infos = PriceItemInfo.objects.filter(item_id = item_id)
+    queryset = PriceItemInfo.objects.prefetch_related('item')
+    price_infos = queryset.filter(item_id = item_id)
     serializer = PriceItemInfoSerializer(price_infos, many=True)
     return Response(serializer.data)
 
