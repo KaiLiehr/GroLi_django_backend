@@ -8,7 +8,7 @@ from api.models import List, Item, Brand, Store, User, ListItem, Membership, Pri
 # view method for returning ALL current instances of the Item model as Json 
 @api_view(['GET'])
 def all_items(request):
-    items = Item.objects.all()
+    items = Item.objects.prefetch_related('brand', 'store')
     serializer = ItemSerializer(items, many=True)
     return Response(serializer.data)
 
