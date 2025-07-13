@@ -99,8 +99,8 @@ class ListItem(models.Model):
         SOLVED = 'Solved'
         CANCELLED = 'Cancelled'
 
-    list = models.ForeignKey(List, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="list_items")
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="item_lists")
 
     amount = models.PositiveIntegerField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=StatusChoices.choices, default=StatusChoices.PENDING)

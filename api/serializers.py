@@ -30,12 +30,14 @@ class ItemSerializer(serializers.ModelSerializer):
             'image',
         )
 
+# for view list_detail(): does not display joined_list(redundant) and only displays created_by as id(not full User) for readability
 class ListItemSerializer(serializers.ModelSerializer):
+    item = ItemSerializer()
     class Meta:
         model = ListItem
         fields = (
             'id',
-            'list',
+            #'list',
             'item',
             'status',
             'amount',
@@ -111,15 +113,27 @@ class ListSerializer(serializers.ModelSerializer):
 
 # for view list_detail(), displays both members and items
 class ListSerializer_detailed(serializers.ModelSerializer):
+    item_count = serializers.SerializerMethodField()
+    member_count = serializers.SerializerMethodField()
     creator = UserSerializer()
     list_memberships = MembershipSerializer(many=True, read_only=True)
+    list_items = ListItemSerializer(many=True, read_only=True)
     class Meta:
         model = List
         fields = (
             'id',
             'name',
+            'item_count', 
+            'member_count',
             'creator',
             'created_at',
             'list_memberships',
+            'list_items',
         )
+
+    def get_item_count(self, obj):
+        return obj.items.count() 
+
+    def get_member_count(self, obj):
+        return obj.members.count()
     
