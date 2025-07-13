@@ -36,7 +36,7 @@ def all_brands(request):
 # view method for returning ALL current instances of the PriceItemInfo model as Json 
 @api_view(['GET'])
 def all_price_infos(request):
-    price_infos = PriceItemInfo.objects.all()
+    price_infos = PriceItemInfo.objects.prefetch_related('item__brand', 'item__store')
     serializer = PriceItemInfoSerializer(price_infos, many=True)
     return Response(serializer.data)
 
