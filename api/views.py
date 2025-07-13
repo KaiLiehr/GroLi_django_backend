@@ -58,7 +58,8 @@ def all_lists(request):
 # different from the all_lists view, this also displays each member and item of the list(rather than just the count)
 @api_view(['GET'])
 def list_detail(request, list_id):
-    given_list = get_object_or_404(List, pk=list_id)
+    queryset = List.objects.prefetch_related('list_items__item__store', 'list_items__item__brand', 'list_memberships__member')
+    given_list = get_object_or_404(queryset, pk=list_id)
     serializer = ListSerializer_detailed(given_list)
     return Response(serializer.data)
 
