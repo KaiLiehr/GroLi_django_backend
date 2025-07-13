@@ -50,7 +50,7 @@ def price_infos_for_item(request, item_id):
 # view method for returning all lists
 @api_view(['GET'])
 def all_lists(request):
-    lists = List.objects.all()
+    lists = List.objects.prefetch_related('members', 'items', 'creator')
     serializer = ListSerializer(lists, many=True)
     return Response(serializer.data)
 
