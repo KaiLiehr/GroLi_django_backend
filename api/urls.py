@@ -10,5 +10,5 @@ urlpatterns = [
     path('prices/', views.AllPriceInfosAPIView.as_view(), name='all_prices'),
     path('prices/<int:item_id>/', views.PriceInfosForItemView.as_view(), name='item_prices'),
     path('lists/', views.AllListsAPIView.as_view(), name='all_lists'),
-    path('lists/<int:list_id>/', views.list_detail, name='list_detail'),
+    path('lists/<int:pk>/', views.ItemDetailAPIView.as_view(), name='list_detail'),
 ]

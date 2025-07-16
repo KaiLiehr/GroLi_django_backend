@@ -55,15 +55,11 @@ class AllListsAPIView(generics.ListAPIView):
     def get_queryset(self):
         return List.objects.prefetch_related('members', 'items', 'creator')
 
-# view method for returning a specific instance of the List model as Json 
+# view class for returning a specific instance of the List model as Json 
 # different from the all_lists view, this also displays each member and item of the list(rather than just the count)
-@api_view(['GET'])
-def list_detail(request, list_id):
-    queryset = List.objects.prefetch_related('list_items__item__store', 'list_items__item__brand', 'list_memberships__member')
-    given_list = get_object_or_404(queryset, pk=list_id)
-    serializer = ListSerializer_detailed(given_list)
-    return Response(serializer.data)
+class ItemDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = ListSerializer_detailed
 
-
-# for ListItem
-# TODO: Return only those LISTitems, a user is allowed to view(requires changes to the model!)
+    def get_queryset(self):
+        return List.objects.prefetch_related('list_items__item__store', 'list_items__item__brand', 'list_memberships__member')
+    
