@@ -1,16 +1,16 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
+from rest_framework import generics
 from api.serializers import ItemSerializer, BrandSerializer, StoreSerializer, ListItemSerializer, PriceItemInfoSerializer, ListSerializer, ListSerializer_detailed
 from api.models import List, Item, Brand, Store, User, ListItem, Membership, PriceItemInfo
 
-# view method for returning ALL current instances of the Item model as Json 
-@api_view(['GET'])
-def all_items(request):
-    items = Item.objects.prefetch_related('brand', 'store')
-    serializer = ItemSerializer(items, many=True)
-    return Response(serializer.data)
+# view class for returning ALL current instances of the Item model as Json 
+class AllItemsAPIView(generics.ListAPIView):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        return Item.objects.prefetch_related('brand', 'store')
 
 # view method for returning a specific instance of the Item model as Json 
 @api_view(['GET'])
