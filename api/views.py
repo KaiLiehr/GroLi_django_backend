@@ -12,12 +12,18 @@ class AllItemsAPIView(generics.ListAPIView):
     def get_queryset(self):
         return Item.objects.prefetch_related('brand', 'store')
 
-# view method for returning a specific instance of the Item model as Json 
-@api_view(['GET'])
-def item_detail(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
-    serializer = ItemSerializer(item)
-    return Response(serializer.data)
+# view class for returning a specific instance of the Item model as Json 
+class ItemDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        return Item.objects.prefetch_related('brand', 'store')
+      
+# @api_view(['GET'])
+# def item_detail(request, item_id):
+#     item = get_object_or_404(Item, pk=item_id)
+#     serializer = ItemSerializer(item)
+#     return Response(serializer.data)
 
 # view method for returning ALL current instances of the Store model as Json 
 @api_view(['GET'])
