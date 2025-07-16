@@ -33,12 +33,19 @@ class AllBrandsAPIView(generics.ListAPIView):
     def get_queryset(self):
         return Brand.objects.all()
 
-# view method for returning ALL current instances of the PriceItemInfo model as Json 
-@api_view(['GET'])
-def all_price_infos(request):
-    price_infos = PriceItemInfo.objects.prefetch_related('item__brand', 'item__store')
-    serializer = PriceItemInfoSerializer(price_infos, many=True)
-    return Response(serializer.data)
+# view class for returning ALL current instances of the PriceItemInfo model as Json 
+class AllPriceInfosAPIView(generics.ListAPIView):
+    serializer_class =PriceItemInfoSerializer
+
+    def get_queryset(self):
+        return PriceItemInfo.objects.prefetch_related('item__brand', 'item__store')
+
+
+# @api_view(['GET'])
+# def all_price_infos(request):
+#     price_infos = PriceItemInfo.objects.prefetch_related('item__brand', 'item__store')
+#     serializer = PriceItemInfoSerializer(price_infos, many=True)
+#     return Response(serializer.data)
 
 # view method for returning all price infos for the given item
 @api_view(['GET'])
