@@ -73,3 +73,15 @@ class ListDetailAPIView(generics.RetrieveAPIView):
     def get_queryset(self):
         return List.objects.prefetch_related('list_items__item__store', 'list_items__item__brand', 'list_memberships__member')
     
+# view class for returning a specific instance of the List model as Json iff the user is member/creator of the list
+# different from the all_lists view, this also displays each member and item of the list(rather than just the count)
+class MyListDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = ListSerializer_detailed
+    permission_classes = [IsAuthenticated]#
+
+    def get_queryset(self):
+        user = self.request.user
+        return List.objects.prefetch_related('list_items__item__store', 'list_items__item__brand', 'list_memberships__member').filter(
+            Q(creator=user) | Q(members=user)
+        ).distinct()
+    

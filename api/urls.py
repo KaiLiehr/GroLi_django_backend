@@ -12,4 +12,5 @@ urlpatterns = [
     path('lists/', views.AllListsAPIView.as_view(), name='all_lists'),
     path('my-lists/', views.MyListsAPIView.as_view(), name='my_lists'),
     path('lists/<int:pk>/', views.ListDetailAPIView.as_view(), name='list_detail'),
+    path('my-lists/<int:pk>/', views.MyListDetailAPIView.as_view(), name='my_list_detail'),
 ]
