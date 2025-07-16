@@ -1,7 +1,6 @@
-from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from django.db.models import Q
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from api.serializers import ItemSerializer, BrandSerializer, StoreSerializer, ListItemSerializer, PriceItemInfoSerializer, ListSerializer, ListSerializer_detailed
 from api.models import List, Item, Brand, Store, User, ListItem, Membership, PriceItemInfo
 
@@ -54,6 +53,17 @@ class AllListsAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return List.objects.prefetch_related('members', 'items', 'creator')
+    
+# view class for returning all lists the user is allowed to view(either as member or as creator of the list)
+class MyListsAPIView(generics.ListAPIView):
+    serializer_class = ListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return List.objects.prefetch_related('members', 'items', 'creator').filter(
+            Q(creator=user) | Q(members=user)
+        ).distinct()
 
 # view class for returning a specific instance of the List model as Json 
 # different from the all_lists view, this also displays each member and item of the list(rather than just the count)

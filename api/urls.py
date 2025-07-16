@@ -10,5 +10,6 @@ urlpatterns = [
     path('prices/', views.AllPriceInfosAPIView.as_view(), name='all_prices'),
     path('prices/<int:item_id>/', views.PriceInfosForItemView.as_view(), name='item_prices'),
     path('lists/', views.AllListsAPIView.as_view(), name='all_lists'),
+    path('my-lists/', views.MyListsAPIView.as_view(), name='my_lists'),
     path('lists/<int:pk>/', views.ListDetailAPIView.as_view(), name='list_detail'),
 ]
