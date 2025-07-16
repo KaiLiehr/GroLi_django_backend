@@ -9,6 +9,6 @@ urlpatterns = [
     path('stores/', views.AllStoresAPIView.as_view(), name='all_stores'),
     path('prices/', views.AllPriceInfosAPIView.as_view(), name='all_prices'),
     path('prices/<int:item_id>/', views.PriceInfosForItemView.as_view(), name='item_prices'),
-    path('lists/', views.all_lists, name='all_lists'),
+    path('lists/', views.AllListsAPIView.as_view(), name='all_lists'),
     path('lists/<int:list_id>/', views.list_detail, name='list_detail'),
 ]

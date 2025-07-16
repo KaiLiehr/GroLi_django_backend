@@ -48,12 +48,12 @@ class PriceInfosForItemView(generics.ListAPIView):
         item_id = self.kwargs['item_id']
         return PriceItemInfo.objects.filter(item_id=item_id).prefetch_related('item')
 
-# view method for returning all lists
-@api_view(['GET'])
-def all_lists(request):
-    lists = List.objects.prefetch_related('members', 'items', 'creator')
-    serializer = ListSerializer(lists, many=True)
-    return Response(serializer.data)
+# view class for returning all lists
+class AllListsAPIView(generics.ListAPIView):
+    serializer_class = ListSerializer
+
+    def get_queryset(self):
+        return List.objects.prefetch_related('members', 'items', 'creator')
 
 # view method for returning a specific instance of the List model as Json 
 # different from the all_lists view, this also displays each member and item of the list(rather than just the count)
