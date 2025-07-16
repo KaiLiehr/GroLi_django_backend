@@ -57,7 +57,7 @@ class AllListsAPIView(generics.ListAPIView):
 
 # view class for returning a specific instance of the List model as Json 
 # different from the all_lists view, this also displays each member and item of the list(rather than just the count)
-class ItemDetailAPIView(generics.RetrieveAPIView):
+class ListDetailAPIView(generics.RetrieveAPIView):
     serializer_class = ListSerializer_detailed
 
     def get_queryset(self):
