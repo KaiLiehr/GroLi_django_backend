@@ -40,20 +40,13 @@ class AllPriceInfosAPIView(generics.ListAPIView):
     def get_queryset(self):
         return PriceItemInfo.objects.prefetch_related('item__brand', 'item__store')
 
+# view class for returning all price infos for the given item
+class PriceInfosForItemView(generics.ListAPIView):
+    serializer_class = PriceItemInfoSerializer
 
-# @api_view(['GET'])
-# def all_price_infos(request):
-#     price_infos = PriceItemInfo.objects.prefetch_related('item__brand', 'item__store')
-#     serializer = PriceItemInfoSerializer(price_infos, many=True)
-#     return Response(serializer.data)
-
-# view method for returning all price infos for the given item
-@api_view(['GET'])
-def price_infos_for_item(request, item_id):
-    queryset = PriceItemInfo.objects.prefetch_related('item')
-    price_infos = queryset.filter(item_id = item_id)
-    serializer = PriceItemInfoSerializer(price_infos, many=True)
-    return Response(serializer.data)
+    def get_queryset(self):
+        item_id = self.kwargs['item_id']
+        return PriceItemInfo.objects.filter(item_id=item_id).prefetch_related('item')
 
 # view method for returning all lists
 @api_view(['GET'])
