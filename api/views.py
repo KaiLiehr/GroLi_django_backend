@@ -26,18 +26,12 @@ class AllStoresAPIView(generics.ListAPIView):
     def get_queryset(self):
         return Store.objects.all()
 
-# @api_view(['GET'])
-# def all_stores(request):
-#     stores = Store.objects.all()
-#     serializer = StoreSerializer(stores, many=True)
-#     return Response(serializer.data)
+# view class for returning ALL current instances of the Brand model as Json 
+class AllBrandsAPIView(generics.ListAPIView):
+    serializer_class = BrandSerializer
 
-# view method for returning ALL current instances of the Brand model as Json 
-@api_view(['GET'])
-def all_brands(request):
-    brands = Brand.objects.all()
-    serializer = BrandSerializer(brands, many=True)
-    return Response(serializer.data)
+    def get_queryset(self):
+        return Brand.objects.all()
 
 # view method for returning ALL current instances of the PriceItemInfo model as Json 
 @api_view(['GET'])

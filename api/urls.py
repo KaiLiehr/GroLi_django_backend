@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path('items/', views.AllItemsAPIView.as_view(), name='all_items'),
     path('items/<int:pk>/', views.ItemDetailAPIView.as_view(), name='item_detail'),
-    path('brands/', views.all_brands, name='all_brands'),
+    path('brands/', views.AllBrandsAPIView.as_view(), name='all_brands'),
     path('stores/', views.AllStoresAPIView.as_view(), name='all_stores'),
     path('prices/', views.all_price_infos, name='all_prices'),
     path('prices/<int:item_id>/', views.price_infos_for_item, name='item_prices'),
